@@ -1,5 +1,6 @@
 #include "RLEList.h"
 #include <stdlib.h>
+#include <string.h>
 
 int RLEListSize(RLEList list);
 char RLEListGet(RLEList list, int index, RLEListResult *result);
@@ -13,7 +14,6 @@ struct RLEList_t{
 };
 
 //implement the functions here
-#define NULL 0
 
 
 RLEList RLEListCreate(){
@@ -80,7 +80,6 @@ RLEListResult RLEListMap(RLEList list, MapFunction map_function){
     return RLE_LIST_SUCCESS;
 };
 
-//TODO: ofir: check if my functions are working properly
 void RLEListDestroy(RLEList list){
     while(list)
     {
@@ -108,8 +107,26 @@ char RLEListGet(RLEList list, int index, RLEListResult *result){ //shouldnt do w
         int current_index =0;
         *result = RLE_LIST_SUCCESS;
         while (list) {
-            if (index < (current_index+list->data_count)) return (list+index)->data;
+            current_index+=list->data_count;
+            if (index < (current_index)) return list->data;
+            list = list->next;
         }
     }
     return 0;
+}
+
+char* RLEListExportToString(RLEList list, RLEListResult* result){
+    if(list == NULL) *result = RLE_LIST_NULL_ARGUMENT;
+    char* wanted_string = malloc(sizeof(char)* RLEListSize(list));
+    int i = 0;
+    while(list)
+    {
+      wanted_string[i] = list->data;
+      wanted_string[i+1] = list->data_count; //todo: check
+      wanted_string[i+2] = '\n';
+      list = list->next;
+      i+=3;
+    }
+    if(*result == RLE_LIST_SUCCESS) return wanted_string;
+    else return NULL;
 }
