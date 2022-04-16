@@ -73,7 +73,7 @@ RLEListResult RLEListMap(RLEList list, MapFunction map_function){
 
 //TODO: ofir: check if my functions are working properly
 void RLEListDestroy(RLEList list){
-    while(!list)
+    while(list)
     {
         RLEList toDelete = list;
         list = list->next;
@@ -84,7 +84,7 @@ void RLEListDestroy(RLEList list){
 int RLEListSize(RLEList list){
     if(list == NULL) return -1;
     int char_ctr = 0;
-    while(!list){ // TODO: offir i
+    while(list){ // TODO: offir i
         char_ctr += list->data_count;
         list = list->next;
     }
@@ -93,9 +93,14 @@ int RLEListSize(RLEList list){
 
 char RLEListGet(RLEList list, int index, RLEListResult *result){ //shouldnt do what is suppose to
     if(list == NULL) *result = RLE_LIST_NULL_ARGUMENT;
-    else if((list+index) == NULL) *result = RLE_LIST_INDEX_OUT_OF_BOUNDS;
-    else *result = RLE_LIST_SUCCESS;
-    if(*result == RLE_LIST_SUCCESS)
-        return (list+index)->data;
-    else return 0;
+    else if((RLEListSize(list)-1) <index) *result = RLE_LIST_INDEX_OUT_OF_BOUNDS;
+
+    else {
+        int current_index =0;
+        *result = RLE_LIST_SUCCESS;
+        while (list) {
+            if (index < (current_index+list->data_count)) return (list+index)->data;
+        }
+    }
+    return 0;
 }
