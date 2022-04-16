@@ -14,7 +14,7 @@ struct RLEList_t{
 
 //implement the functions here
 #define NULL 0
-typedef struct RLEList_t *RLEList; //TODO: why should be here?
+
 
 RLEList RLEListCreate(){
     RLEList head = malloc(sizeof (*head));
@@ -44,18 +44,27 @@ RLEListResult RLEListAppend(RLEList list, char value){
 
 RLEListResult RLEListRemove(RLEList list, int index){
     if (!list) {return RLE_LIST_NULL_ARGUMENT;}
-    if ((RLEListSize(list)-1)<index) {return RLE_LIST_INDEX_OUT_OF_BOUNDS}
-    RLEList result;
-    RLEListGet(list,index,result);
-    if (result->data_count == 1){
-        RLEList previous;
-        RLEListGet(list,index-1,previous);
-        if (result->next == NULL) {previous->next = NULL;}
-        else {previous->next = result->next;}
-        free(result);
+    if ((RLEListSize(list)-1)<index) {return RLE_LIST_INDEX_OUT_OF_BOUNDS;}
+    //if in the first item.
+    if (index<list->data_count) {
+        list->data_count -=1;
+        return RLE_LIST_SUCCESS;
+    }
+
+    RLEList current = list;
+    RLEList previous;
+    for (int ctr=0; (ctr<index) |(!current); ctr+=current->data_count) {
+        previous = current;
+        current =current->next;
+    }
+
+    if (current->data_count == 1){
+        if (current->next == NULL) {previous->next = NULL;}
+        else {previous->next = current->next;}
+        free(current);
     }
     else{
-        result->data_count -=1;
+        current->data_count -=1;
     }
 
     return RLE_LIST_SUCCESS;
