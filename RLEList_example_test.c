@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "RLEList.h"
-#include "test_utilities.h"
+#include "tests/test_utilities.h"
 
 typedef bool (*testFunc)(void);
 

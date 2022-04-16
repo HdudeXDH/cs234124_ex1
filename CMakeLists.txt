@@ -3,4 +3,5 @@ project(ex1 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(ex1 RLEList.c AsciiArtTool.c AsciiArtTool.h main.c)
+
+add_executable(ex1 RLEList_example_test.c RLEList.c )

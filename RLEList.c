@@ -29,44 +29,53 @@ RLEListResult RLEListAppend(RLEList list, char value){
     if (!list | !value) {return RLE_LIST_NULL_ARGUMENT;}
     int size = RLEListSize(list);
     RLEList tail;
+    if (size==0) {
+        list->data = value;
+        list->data_count =1;
+        return RLE_LIST_SUCCESS;
+    }
+
+    RLEList current = list;
+    for (int ctr=0; ctr<size-1; ctr+=current->data_count) {
+        current =current->next;
+    }
+
     //check if the requested char exists
-    if (RLEListGet(list, size, tail) != value) {
+    if (current->data != value) {
         RLEList new =malloc(sizeof (*new));
         if (!new) {return RLE_LIST_OUT_OF_MEMORY;}
         new-> data = value;
         new-> data_count = 1;
         new-> next = NULL;
-        tail->next = new;
+        current->next = new;
     }
-    else tail -> data_count = tail->data_count + 1;
+    else current -> data_count = current->data_count + 1;
     return RLE_LIST_SUCCESS;
 };
 
 RLEListResult RLEListRemove(RLEList list, int index){
     if (!list) {return RLE_LIST_NULL_ARGUMENT;}
-    if ((RLEListSize(list)-1)<index) {return RLE_LIST_INDEX_OUT_OF_BOUNDS;}
+    int size = RLEListSize(list);
+    if ((size-1)<index) {return RLE_LIST_INDEX_OUT_OF_BOUNDS;}
     //if in the first item.
-    if (index<list->data_count) {
+
+    if ((index<list->data_count) || (list->next == NULL)) {
         list->data_count -=1;
+        if ((list->data_count ==0 )&&(list->next != NULL)) {
+            list = list->next;}
         return RLE_LIST_SUCCESS;
     }
 
-    RLEList current = list;
-    RLEList previous;
-    for (int ctr=0; (ctr<index) |(!current); ctr+=current->data_count) {
-        previous = current;
-        current =current->next;
+    //search the relevant item.
+    for (index -= list->data_count; (index- list->next->data_count >0 ) ; index -= list->next->data_count) {
+        list =list->next;
     }
-
-    if (current->data_count == 1){
-        if (current->next == NULL) {previous->next = NULL;}
-        else {previous->next = current->next;}
-        free(current);
-    }
-    else{
-        current->data_count -=1;
-    }
-
+    list->next->data_count-=1;
+    if (list->next->data_count==0){
+        RLEList to_delete = list->next;
+        list->next = list->next->next;
+        free(to_delete);
+    };
     return RLE_LIST_SUCCESS;
 };
 
@@ -105,7 +114,7 @@ char RLEListGet(RLEList list, int index, RLEListResult *result){ //shouldnt do w
 
     else {
         int current_index =0;
-        *result = RLE_LIST_SUCCESS;
+        if (result) *result = RLE_LIST_SUCCESS;
         while (list) {
             current_index+=list->data_count;
             if (index < (current_index)) return list->data;
