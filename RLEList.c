@@ -109,9 +109,9 @@ int RLEListSize(RLEList list){
 }
 
 char RLEListGet(RLEList list, int index, RLEListResult *result){ //shouldnt do what is suppose to
-    if(list == NULL) *result = RLE_LIST_NULL_ARGUMENT;
-    else if((RLEListSize(list)-1) <index) *result = RLE_LIST_INDEX_OUT_OF_BOUNDS;
-
+    RLEListResult internal_result =RLE_LIST_SUCCESS;
+    if(list == NULL) internal_result = RLE_LIST_NULL_ARGUMENT;
+    else if((RLEListSize(list)-1) <index) internal_result = RLE_LIST_INDEX_OUT_OF_BOUNDS;
     else {
         int current_index =0;
         if (result) *result = RLE_LIST_SUCCESS;
@@ -121,11 +121,13 @@ char RLEListGet(RLEList list, int index, RLEListResult *result){ //shouldnt do w
             list = list->next;
         }
     }
+    if (result) *result = internal_result;
     return 0;
 }
 
 char* RLEListExportToString(RLEList list, RLEListResult* result){
-    if(list == NULL) *result = RLE_LIST_NULL_ARGUMENT;
+    RLEListResult internal_result = RLE_LIST_SUCCESS;
+    if(list == NULL) internal_result = RLE_LIST_NULL_ARGUMENT;
     char* wanted_string = malloc(sizeof(char)* RLEListSize(list));
     int i = 0;
     while(list)
@@ -136,6 +138,7 @@ char* RLEListExportToString(RLEList list, RLEListResult* result){
       list = list->next;
       i+=3;
     }
-    if(*result == RLE_LIST_SUCCESS) return wanted_string;
+    if (result!=NULL) *result= internal_result;
+    if(internal_result == RLE_LIST_SUCCESS) return wanted_string;
     else return NULL;
 }

@@ -8,9 +8,11 @@
 typedef bool (*testFunc)(void);
 
 bool basicTest();
+bool basicTest2();
 
 #define TESTS_NAMES             \
-    X(basicTest)               \
+    X(basicTest)                \
+    X(basicTest2)                \
 
 testFunc tests[] = {
 #define X(name) name,
@@ -83,6 +85,54 @@ bool basicTest(){
     //check if the length's are equal
     ASSERT_TEST(RLEListSize(list)==strlen(s), destroy);
     
+    destroy:
+    RLEListDestroy(list);
+    return result;
+}
+
+bool basicTest2(){
+    RLEList list = RLEListCreate();
+    bool result=true;
+    ASSERT_TEST(list != NULL, destroy);
+    ASSERT_TEST(RLEListSize(list) == 0, destroy);
+    RLEListResult func_result;
+    //adding elements to the list
+    ASSERT_TEST(RLEListAppend(list, 'a') == RLE_LIST_SUCCESS, destroy);    // a
+    ASSERT_TEST(RLEListAppend(list, 'b') == RLE_LIST_SUCCESS, destroy);    // ac
+    ASSERT_TEST(RLEListAppend(list, 'b') == RLE_LIST_SUCCESS, destroy);    // acb
+    ASSERT_TEST(RLEListAppend(list, 'b') == RLE_LIST_SUCCESS, destroy);    // acba
+    ASSERT_TEST(RLEListSize(list) == 4, destroy);
+
+    ASSERT_TEST(RLEListAppend(list, 'b') == RLE_LIST_SUCCESS, destroy);    // acbab
+    ASSERT_TEST(RLEListAppend(list, 'c') == RLE_LIST_SUCCESS, destroy);    // acbab
+
+    ASSERT_TEST(RLEListGet(list, 5, &func_result) == 'c', destroy);    // acbab
+    ASSERT_TEST(func_result == RLE_LIST_SUCCESS, destroy);    // acbab
+    ASSERT_TEST(RLEListGet(list, 6, &func_result) == 0, destroy);    // acbab
+    ASSERT_TEST(func_result == RLE_LIST_INDEX_OUT_OF_BOUNDS, destroy);    // acbab
+    ASSERT_TEST(RLEListGet(NULL, 6, &func_result) == 0, destroy);    // acbab
+    ASSERT_TEST(func_result == RLE_LIST_NULL_ARGUMENT, destroy);    // acbab
+
+    ASSERT_TEST(RLEListRemove(list, 1) == RLE_LIST_SUCCESS, destroy);
+    ASSERT_TEST(RLEListRemove(list, 8) == RLE_LIST_INDEX_OUT_OF_BOUNDS, destroy);
+    ASSERT_TEST(RLEListRemove(list, 4) == RLE_LIST_SUCCESS, destroy);
+    ASSERT_TEST(RLEListAppend(NULL, 'A') == RLE_LIST_NULL_ARGUMENT, destroy);
+    ASSERT_TEST(RLEListAppend(list, NULL) == RLE_LIST_NULL_ARGUMENT, destroy);
+    ASSERT_TEST(RLEListExportToString(NULL, NULL) == NULL, destroy);
+
+
+    const char *s = "abbb";
+    const char *test_string = "a1\nb3\n";
+    ASSERT_TEST(strcmp(RLEListExportToString(list,NULL), test_string), destroy);
+    char it;
+    for(int i=0; i<RLEListSize(list); i++)
+    {
+        it=RLEListGet(list, i, NULL);
+        ASSERT_TEST(it == s[i++], destroy);
+    }
+    //check if the length's are equal
+    ASSERT_TEST(RLEListSize(list)==strlen(s), destroy);
+
     destroy:
     RLEListDestroy(list);
     return result;
