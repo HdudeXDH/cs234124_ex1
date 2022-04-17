@@ -37,7 +37,7 @@ RLEListResult RLEListAppend(RLEList list, char value){
 
     int ctr=0;
     RLEList current = list;
-    while(ctr<size-1) {
+    while(ctr+current->data_count<size) {
         ctr+=current->data_count;
         current =current->next;
     }
@@ -130,16 +130,19 @@ char RLEListGet(RLEList list, int index, RLEListResult *result){ //shouldnt do w
 char* RLEListExportToString(RLEList list, RLEListResult* result){
     RLEListResult internal_result = RLE_LIST_SUCCESS;
     if(list == NULL) internal_result = RLE_LIST_NULL_ARGUMENT;
-    char* wanted_string = malloc(sizeof(char)* RLEListSize(list));
-    int i = 0;
-    while(list)
+    int RLE_length =1;
+    for (RLEList current=list;current->next != NULL;current=current->next,RLE_length++);
+    char* wanted_string = malloc(sizeof(char)* (RLE_length*3+1));
+//    int i = 0;
+//    while(list)
+    for (int i=0;i<RLE_length;i++)
     {
-      wanted_string[i] = list->data;
-      wanted_string[i+1] = list->data_count; //todo: check
-      wanted_string[i+2] = '\n';
+      wanted_string[3*i] = list->data;
+      wanted_string[3*i+1] = list->data_count +'0';
+      wanted_string[3*i+2] = '\n';
       list = list->next;
-      i+=3;
     }
+    wanted_string[RLE_length*3]='\0';
     if (result!=NULL) *result= internal_result;
     if(internal_result == RLE_LIST_SUCCESS) return wanted_string;
     else return NULL;

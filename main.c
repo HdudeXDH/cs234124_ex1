@@ -19,7 +19,7 @@ int main (int argc, char** argv){
     char * input_file = argv[argc-2], * output_file = argv[argc-1];
     FILE* input_stream = fopen( input_file,"r");
     FILE* output_stream = fopen(output_file,"w");
-    RLEList  list = asciiArtRead(input_stream);
+    RLEList list = asciiArtRead(input_stream);
 
     if(i_flag) {
         RLEListMap(list, invertMapChars);
