@@ -69,13 +69,22 @@ RLEListResult RLEListRemove(RLEList list, int index){
     }
 
     //search the relevant item.
-    for (index -= list->data_count; (index- list->next->data_count >0 ) ; index -= list->next->data_count) {
-        list =list->next;
+    int current_index =0;
+    RLEList previous;
+    while (list) {
+        current_index+=list->data_count;
+        if (index < (current_index)) break;
+        previous = list;
+        list = list->next;
     }
-    list->next->data_count-=1;
-    if (list->next->data_count==0){
-        RLEList to_delete = list->next;
-        list->next = list->next->next;
+
+//    for (index -= list->data_count; (index- list->next->data_count >0 ) ; index -= list->next->data_count) {
+//        list =list->next;
+//    }
+    list->data_count-=1;
+    if (list->data_count==0){
+        RLEList to_delete = list;
+        previous->next = list->next;
         free(to_delete);
     };
     return RLE_LIST_SUCCESS;

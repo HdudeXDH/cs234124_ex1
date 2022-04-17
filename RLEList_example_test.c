@@ -123,7 +123,7 @@ bool basicTest2(){
 
     const char *s = "abbb";
     const char *test_string = "a1\nb3\n";
-    ASSERT_TEST(strcmp(RLEListExportToString(list,NULL), test_string), destroy);
+    ASSERT_TEST(strcmp(RLEListExportToString(list,NULL), test_string)==0, destroy);
     char it;
     for(int i=0; i<RLEListSize(list); i++)
     {
