@@ -35,8 +35,10 @@ RLEListResult RLEListAppend(RLEList list, char value){
         return RLE_LIST_SUCCESS;
     }
 
+    int ctr=0;
     RLEList current = list;
-    for (int ctr=0; ctr<size-1; ctr+=current->data_count) {
+    while(ctr<size-1) {
+        ctr+=current->data_count;
         current =current->next;
     }
 
