@@ -28,7 +28,6 @@ RLEList RLEListCreate(){
 RLEListResult RLEListAppend(RLEList list, char value){
     if (!list | !value) {return RLE_LIST_NULL_ARGUMENT;}
     int size = RLEListSize(list);
-    RLEList tail;
     if (size==0) {
         list->data = value;
         list->data_count =1;
