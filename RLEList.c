@@ -129,7 +129,9 @@ char RLEListGet(RLEList list, int index, RLEListResult *result){ //shouldnt do w
 
 char* RLEListExportToString(RLEList list, RLEListResult* result){
     RLEListResult internal_result = RLE_LIST_SUCCESS;
-    if(list == NULL) internal_result = RLE_LIST_NULL_ARGUMENT;
+    if(list == NULL) {internal_result = RLE_LIST_NULL_ARGUMENT;
+        return NULL;
+    }
     int RLE_length =1;
     for (RLEList current=list;current->next != NULL;current=current->next,RLE_length++);
     char* wanted_string = malloc(sizeof(char)* (RLE_length*3+1));
