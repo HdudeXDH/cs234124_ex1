@@ -19,7 +19,7 @@ struct RLEList_t{
 RLEList RLEListCreate(){
     RLEList head = malloc(sizeof (*head));
     if (!head) {return NULL;}
-    head ->data="";
+    head ->data='0';
     head ->data_count=0;
     head ->next=NULL;
     return head;
