@@ -23,7 +23,7 @@ RLEList RLEListCreate(){
     head ->data_count=0;
     head ->next=NULL;
     return head;
-};
+}
 
 RLEListResult RLEListAppend(RLEList list, char value){
     if (!list | !value) {return RLE_LIST_NULL_ARGUMENT;}
@@ -52,7 +52,7 @@ RLEListResult RLEListAppend(RLEList list, char value){
     }
     else current -> data_count = current->data_count + 1;
     return RLE_LIST_SUCCESS;
-};
+}
 
 RLEListResult RLEListRemove(RLEList list, int index){
     if (!list) {return RLE_LIST_NULL_ARGUMENT;}
@@ -77,17 +77,14 @@ RLEListResult RLEListRemove(RLEList list, int index){
         list = list->next;
     }
 
-//    for (index -= list->data_count; (index- list->next->data_count >0 ) ; index -= list->next->data_count) {
-//        list =list->next;
-//    }
     list->data_count-=1;
     if (list->data_count==0){
         RLEList to_delete = list;
         previous->next = list->next;
         free(to_delete);
-    };
+    }
     return RLE_LIST_SUCCESS;
-};
+}
 
 RLEListResult RLEListMap(RLEList list, MapFunction map_function){
     if (!list) {return RLE_LIST_NULL_ARGUMENT;}
@@ -97,7 +94,7 @@ RLEListResult RLEListMap(RLEList list, MapFunction map_function){
         current = current->next;
     }
     return RLE_LIST_SUCCESS;
-};
+}
 
 void RLEListDestroy(RLEList list){
     while(list)
@@ -143,8 +140,6 @@ char* RLEListExportToString(RLEList list, RLEListResult* result){
     int RLE_length =1;
     for (RLEList current=list;current->next != NULL;current=current->next,RLE_length++);
     char* wanted_string = malloc(sizeof(char)* (RLE_length*3+1));
-//    int i = 0;
-//    while(list)
     for (int i=0;i<RLE_length;i++)
     {
       wanted_string[3*i] = list->data;
@@ -154,6 +149,6 @@ char* RLEListExportToString(RLEList list, RLEListResult* result){
     }
     wanted_string[RLE_length*3]='\0';
     if (result!=NULL) *result= internal_result;
-    if(internal_result == RLE_LIST_SUCCESS) return wanted_string;
+    if(internal_result == RLE_LIST_SUCCESS) {return wanted_string;}
     else return NULL;
 }

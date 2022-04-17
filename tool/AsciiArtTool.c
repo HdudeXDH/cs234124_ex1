@@ -24,7 +24,7 @@ RLEList asciiArtRead(FILE* in_stream){
     }
     return list;
 
-};
+}
 RLEListResult asciiArtPrint(RLEList list, FILE *out_stream){
     char buffer[2];
     buffer[1] = '\0';
@@ -35,11 +35,11 @@ RLEListResult asciiArtPrint(RLEList list, FILE *out_stream){
         fputs(buffer,out_stream);
     }
     return RLE_LIST_SUCCESS;
-};
+}
 
 RLEListResult asciiArtPrintEncoded(RLEList list, FILE *out_stream){
     if(!list) return RLE_LIST_NULL_ARGUMENT;
     char *buffer = RLEListExportToString(list,NULL);
     fputs(buffer,out_stream);
     return RLE_LIST_SUCCESS;
-};
+}
