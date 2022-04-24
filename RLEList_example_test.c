@@ -117,7 +117,7 @@ bool basicTest2(){
     ASSERT_TEST(RLEListRemove(list, 8) == RLE_LIST_INDEX_OUT_OF_BOUNDS, destroy);
     ASSERT_TEST(RLEListRemove(list, 4) == RLE_LIST_SUCCESS, destroy);
     ASSERT_TEST(RLEListAppend(NULL, 'A') == RLE_LIST_NULL_ARGUMENT, destroy);
-    ASSERT_TEST(RLEListAppend(list, NULL) == RLE_LIST_NULL_ARGUMENT, destroy);
+    ASSERT_TEST(RLEListAppend(list, '\0') == RLE_LIST_NULL_ARGUMENT, destroy);
     ASSERT_TEST(RLEListExportToString(NULL, NULL) == NULL, destroy);
 
 
