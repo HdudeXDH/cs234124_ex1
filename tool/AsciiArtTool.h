@@ -1,8 +1,7 @@
-//
-// Created by User on 4/16/2022.
-//
 #include "RLEList.h"
 #include <stdio.h>
+#define CHUNK_SIZE 256
+#define NULL_END '\0'
 
 /**
  * Read File and encode it with the RLE method.

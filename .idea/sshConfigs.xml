@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="csl3.cs.technion.ac.il" id="90fae1bc-9dde-4a6e-87dc-07e72ac48a89" port="22" nameFormat="DESCRIPTIVE" username="ofirelya" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>

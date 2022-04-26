@@ -1,6 +1,3 @@
-//
-// Created by User on 4/16/2022.
-//
 #include "AsciiArtTool.h"
 #include "RLEList.h"
 #include <stdbool.h>
@@ -11,23 +8,23 @@ char invertMapChars(char source){
 }
 
 int main (int argc, char** argv){
-    bool i_flag = false;
+    bool iFlag = false;
     for (int i=0; i<argc;i++ ){
-        if (strcmp(argv[i],"-i")==0) i_flag=true;
+        if (strcmp(argv[i],"-i")==0) iFlag=true;
     }
     char * input_file = argv[argc-2], * output_file = argv[argc-1];
-    FILE* input_stream = fopen( input_file,"r");
-    FILE* output_stream = fopen(output_file,"w");
-    RLEList list = asciiArtRead(input_stream);
+    FILE* inputStream = fopen(input_file, "r");
+    FILE* outputStream = fopen(output_file, "w");
+    RLEList list = asciiArtRead(inputStream);
 
-    if(i_flag) {
+    if(iFlag) {
         RLEListMap(list, invertMapChars);
-        asciiArtPrint(list,output_stream);
+        asciiArtPrint(list, outputStream);
     }
-    else asciiArtPrintEncoded(list,output_stream);
+    else asciiArtPrintEncoded(list, outputStream);
 
-    fclose(output_stream);
-    fclose(input_stream);
+    fclose(outputStream);
+    fclose(inputStream);
     RLEListDestroy(list);
     return 0;
 
