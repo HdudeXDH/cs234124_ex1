@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="625cd3e3-2b62-4778-bc27-24eba3175adf" name="Technion">
-        <fileTransfer accessType="SFTP" host="csl3.cs.technion.ac.il" port="22" sshConfigId="90fae1bc-9dde-4a6e-87dc-07e72ac48a89" sshConfig="ofirelya@csl3.cs.technion.ac.il:22 password">
+        <fileTransfer accessType="SFTP" host="csl3.cs.technion.ac.il" port="22" sshConfigId="b9476b1a-75d3-42b1-b8c1-ba46c23c8589" sshConfig="alon-feldman@csl3.cs.technion.ac.il:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

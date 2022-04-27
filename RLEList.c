@@ -68,7 +68,12 @@ RLEListResult RLEListRemove(RLEList list, int index){
     if ((index<list->dataCount) || (list->next == NULL)) {
         list->dataCount -=1;
         if ((list->dataCount == 0 ) && (list->next != NULL)) {
-            list = list->next;}
+            RLEList toDelete = list->next;
+            list->data = toDelete->data;
+            list->dataCount = toDelete->dataCount;
+            list->next = toDelete->next;
+            free(toDelete);
+        }
         return RLE_LIST_SUCCESS;
     }
 
@@ -139,20 +144,26 @@ char RLEListGet(RLEList list, int index, RLEListResult *result){
 
 char* RLEListExportToString(RLEList list, RLEListResult* result){
     RLEListResult internalResult = RLE_LIST_SUCCESS;
-    if(list == NULL) { internalResult = RLE_LIST_NULL_ARGUMENT;
+    if(list == NULL) {
+        if (result!=NULL) *result = RLE_LIST_NULL_ARGUMENT;
         return NULL;
     }
     int RLE_length =1;
     for (RLEList current=list;current->next != NULL;current=current->next,RLE_length++);
-    char* wantedString = malloc(sizeof(char) * (RLE_length * 3 + 1));
-    for (int i=0;i<RLE_length;i++)
-    {
-        wantedString[3 * i] = list->data;
-        wantedString[3 * i + 1] = list->dataCount + '0';
-        wantedString[3 * i + 2] = '\n';
-      list = list->next;
+    char* wantedString = malloc(sizeof(char) * (RLE_length * 5 + 1));
+    int currentIndex = 0;
+    for (int i=0;i<RLE_length;i++){
+        wantedString[currentIndex++] = list->data;
+        int hundreds = list->dataCount%1000/100;
+        if (hundreds!=0) wantedString[currentIndex++] = hundreds + '0';
+        int tens = list->dataCount%100/10;
+        if (hundreds!=0||tens!=0) wantedString[currentIndex++] = tens + '0';
+        int units = list->dataCount%10;
+        wantedString[currentIndex++] = units + '0';
+        wantedString[currentIndex++] = '\n';
+        list = list->next;
     }
-    wantedString[RLE_length * 3]='\0';
+    wantedString[currentIndex]='\0';
     if (result!=NULL) *result= internalResult;
     if(internalResult == RLE_LIST_SUCCESS) {return wantedString;}
     else return NULL;

@@ -2,10 +2,17 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="Always" serverName="Technion" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="CLS3">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="Technion">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/ofirelya/ex1" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/alon-feldman/ex1_final" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

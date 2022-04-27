@@ -1,10 +1,9 @@
 # ninja log v5
-1	178	6725142872456058	build.ninja	48100bf5b5b8637a
-1	90	6725135330878018	CMakeFiles/ex1.dir/main.c.obj	ddf18c01a9fc573
+1	178	6727875009028510	build.ninja	48100bf5b5b8637a
 85	141	6716548981021302	libex1.a	eefaed6881603a87
-77	164	6725135548661402	ex1.exe	be744e4ff75ce011
-16	132	6719139813166073	CMakeFiles/ex1.dir/RLEList.c.obj	4b83b8a76b2db34
-2	314	6725133775944983	CMakeFiles/ex1.dir/RLEList_example_test.c.obj	71b7fb1adf977244
-3	89	6725135330878018	CMakeFiles/ex1.dir/AsciiArtTool.c.obj	fc8887b2e463d9ea
-2	76	6725135547811391	CMakeFiles/ex1.dir/tests/main.c.obj	cc399273f5f90404
-12	77	6725135547811391	CMakeFiles/ex1.dir/tests/AsciiArtTool.c.obj	300dabdfb7413974
+136	446	6727869834469292	ex1.exe	cdcc15207ce03ff1
+19	154	6727864686488512	CMakeFiles/ex1.dir/RLEList.c.obj	4b83b8a76b2db34
+3	135	6727869831433530	CMakeFiles/ex1.dir/sleepingcattest.c.obj	69a3f7f01069db9c
+2	155	6727868424265204	CMakeFiles/ex1.dir/RLEList_example_test.c.obj	71b7fb1adf977244
+6	284	6727875020311095	CMakeFiles/ex1.dir/RLEList_example_test.c.obj	71b7fb1adf977244
+285	519	6727875022833954	ex1.exe	dc042657b579a4d8
